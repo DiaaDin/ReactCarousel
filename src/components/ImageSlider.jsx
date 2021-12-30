@@ -4,16 +4,27 @@ import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
 import styled from "styled-components";
 import "./Slide.css";
 
-const Section = styled.section`
-  position: relative;
-  height: 100vh;
+const Container = styled.div`
+  height: 95vh;
+  width: 100%;
   display: flex;
+  position: relative;
+  overflow: hidden;
   align-items: center;
   justify-content: center;
+
 `;
+
+const Wrapper = styled.div`
+ height: 100%;
+`
+
 const Slide = styled.div`
+   display: flex;
+  align-items: center;
   height: 100%;
 `;
+
 const ImgContainer = styled.div`
   display: flex;
   align-items: center;
@@ -49,10 +60,7 @@ const ImageSlider = ({ slides }) => {
   const [current, setCurrent] = useState(0);
   const length = slides.length;
 
-  if (!Array.isArray(slides) || slides.length <= 0) {
-    return null;
-  }
-
+ 
   const nextSlide = () => {
     setCurrent(current === length - 1 ? 0 : current + 1);
   };
@@ -62,7 +70,7 @@ const ImageSlider = ({ slides }) => {
   };
 
   return (
-    <Section>
+    <Container>
       <Arrow direction="left" onClick={prevSlide}>
         <FaArrowAltCircleLeft />
       </Arrow>
@@ -71,18 +79,20 @@ const ImageSlider = ({ slides }) => {
       </Arrow>
       {SliderData.map((slide, index) => {
         return (
+          <Wrapper key={index}>
           <Slide
             className={index === current ? "slide active" : "slide"}
-            key={index}>
+            >
             {index === current && (
               <ImgContainer>
                 <Img src={slide.image} alt="fit" />
               </ImgContainer>
             )}
           </Slide>
+          </Wrapper>
         );
       })}
-    </Section>
+    </Container>
   );
 };
 
